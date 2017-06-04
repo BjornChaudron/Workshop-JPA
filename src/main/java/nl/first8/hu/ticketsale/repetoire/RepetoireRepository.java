@@ -11,12 +11,12 @@ import java.util.Optional;
  * Author: Bjorn, created on 1-6-2017.
  */
 @Repository
-public class ArtistRepository {
+public class RepetoireRepository {
 
     private final EntityManager entityManager;
 
     @Autowired
-    public ArtistRepository(EntityManager entityManager) { this.entityManager = entityManager; }
+    public RepetoireRepository(EntityManager entityManager) { this.entityManager = entityManager; }
 
     public void insert(Artist artist) { entityManager.persist(artist); }
 
