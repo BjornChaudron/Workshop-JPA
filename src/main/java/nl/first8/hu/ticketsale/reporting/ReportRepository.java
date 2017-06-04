@@ -1,5 +1,6 @@
 package nl.first8.hu.ticketsale.reporting;
 
+import nl.first8.hu.ticketsale.repetoire.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +18,7 @@ public class ReportRepository {
         this.entityManager = entityManager;
     }
 
-    public List<LocationReport> findGenreLocations(String genre) {
+    public List<LocationReport> findGenreLocations(Genre genre) {
         String jpql = "SELECT DISTINCT NEW nl.first8.hu.ticketsale.reporting.LocationReport(t.concert.artist, t.concert.location.name, t.account.info.city) " +
                 "FROM Ticket t " +
                 "WHERE t.concert.genre = :genre";

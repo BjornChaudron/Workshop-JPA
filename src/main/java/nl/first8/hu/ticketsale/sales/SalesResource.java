@@ -42,6 +42,7 @@ public class SalesResource {
             return sale.map(s -> ResponseEntity.ok(s.getId()))
                     .orElse(ResponseEntity.notFound().build());
         } catch (RuntimeException ex) {
+            ex.printStackTrace();
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }

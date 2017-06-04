@@ -3,6 +3,8 @@ package nl.first8.hu.ticketsale.reporting;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.first8.hu.ticketsale.registration.Account;
+import nl.first8.hu.ticketsale.repetoire.Artist;
+import nl.first8.hu.ticketsale.repetoire.Genre;
 import nl.first8.hu.ticketsale.util.TestRepository;
 import nl.first8.hu.ticketsale.venue.Concert;
 import org.junit.Test;
@@ -17,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import static org.hamcrest.Matchers.contains;
@@ -45,10 +46,12 @@ public class ReportingIntegrationTest {
 
     @Test
     public void testReport() throws Exception {
-
-        Concert concertMetal1 = helper.createConcert("Five Finger Death Punch", "metal", "Utrecht");
-        Concert concertMetal2 = helper.createConcert("Disturbed", "metal", "Apeldoorn");
-        Concert concertElec= helper.createConcert("Pogo", "electronica", "Amsterdam");
+        Artist artist1 = helper.createArtist("Five Finger Death Punch", Genre.METAL);
+        Artist artist2 = helper.createArtist("Disturbed", Genre.METAL);
+        Artist artist3 = helper.createArtist("Pogo", Genre.ELECTRONIC);
+        Concert concertMetal1 = helper.createConcert(artist1, Genre.METAL, "Utrecht");
+        Concert concertMetal2 = helper.createConcert(artist2, Genre.METAL, "Apeldoorn");
+        Concert concertElec= helper.createConcert(artist3, Genre.ELECTRONIC, "Amsterdam");
         Account accountZeist = helper.createAccount("user@zeist.museum", "Zeist");
         Account accountNieuwegein = helper.createAccount("user@nieuwegein.museum", "Nieuwegein");
         Account accountHouten = helper.createAccount("user@houten.museum", "Houten");
@@ -65,20 +68,18 @@ public class ReportingIntegrationTest {
         ).andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8)).andReturn();
 
-
         final List<LocationReport> receivedReports= reports(result);
 
         assertThat(3, is(receivedReports.size()));
-
-        assertThat(concertMetal1.getArtist(), is(receivedReports.get(0).getArtist()));
+        assertThat(concertMetal1.getArtist().getName(), is(receivedReports.get(0).getArtist().getName()));
         assertThat(concertMetal1.getLocation().getName(), is(receivedReports.get(0).getConcertLocations()));
         assertThat(accountZeist.getInfo().getCity(), is(receivedReports.get(0).getTicketCity()));
 
-        assertThat(concertMetal1.getArtist(), is(receivedReports.get(1).getArtist()));
+        assertThat(concertMetal1.getArtist().getName(), is(receivedReports.get(1).getArtist().getName()));
         assertThat(concertMetal1.getLocation().getName(), is(receivedReports.get(1).getConcertLocations()));
         assertThat(accountNieuwegein.getInfo().getCity(), is(receivedReports.get(1).getTicketCity()));
 
-        assertThat(concertMetal2.getArtist(), is(receivedReports.get(2).getArtist()));
+        assertThat(concertMetal2.getArtist().getName(), is(receivedReports.get(2).getArtist().getName()));
         assertThat(concertMetal2.getLocation().getName(), is(receivedReports.get(2).getConcertLocations()));
         assertThat(accountNieuwegein.getInfo().getCity(), is(receivedReports.get(2).getTicketCity()));
 

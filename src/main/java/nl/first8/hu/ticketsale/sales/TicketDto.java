@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import nl.first8.hu.ticketsale.registration.Account;
+import nl.first8.hu.ticketsale.repetoire.Artist;
+import nl.first8.hu.ticketsale.repetoire.Genre;
+import nl.first8.hu.ticketsale.venue.Location;
 
 import javax.persistence.*;
 
@@ -12,9 +15,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class TicketDto {
 
-    private String artist;
+    private Artist artist;
 
-    private String genre;
+    private Genre genre;
 
     private String location;
 

@@ -2,9 +2,14 @@ package nl.first8.hu.ticketsale.venue;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nl.first8.hu.ticketsale.repetoire.Artist;
+import nl.first8.hu.ticketsale.repetoire.Genre;
+
 import javax.persistence.*;
 import java.io.Serializable;
 @Entity
@@ -17,9 +22,12 @@ public class Concert implements Serializable {
     @GeneratedValue
     private Long id;
 
-    private String artist;
+    @ManyToOne
+    @JoinColumn(name="artist_id", referencedColumnName = "id")
+    private Artist artist;
 
-    private String genre;
+    @Enumerated(EnumType.STRING)
+    private Genre genre;
 
     @ManyToOne
     @JoinColumn(name = "location_id", referencedColumnName = "id")
