@@ -23,6 +23,7 @@ public class Location implements Serializable {
     @Column(name = "location_name")
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "location")
     private List<Concert> concerts;
 

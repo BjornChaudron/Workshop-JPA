@@ -27,8 +27,8 @@ public class VenueRepository {
     public List<Concert> findByArtistName(String name) {
         try {
             return entityManager
-                    .createQuery("SELECT c FROM Concert c WHERE c.artist.name =:artistName", Concert.class)
-                    .setParameter("artistName", name)
+                    .createQuery("SELECT c FROM Concert c WHERE c.artist.name =:name", Concert.class)
+                    .setParameter("name", name)
                     .getResultList();
 
         } catch (NoResultException nre) {
@@ -41,7 +41,7 @@ public class VenueRepository {
     public List<Concert> findByGenre(String genre) {
         try {
             return entityManager
-                    .createQuery("SELECT c FROM Concert c WHERE c.artist.genre IN :artistGenre", Concert.class)
+                    .createQuery("SELECT c FROM Concert c WHERE c.artist.genre IN :genre", Concert.class)
                     .setParameter("genre", Genre.valueOf(genre.toUpperCase()))
                     .getResultList();
         } catch (NoResultException nre) {
